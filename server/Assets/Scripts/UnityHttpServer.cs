@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using TMPro;
@@ -21,8 +22,24 @@ public class UnityHttpServer : MonoBehaviour {
         if (server == null) StartServer();
     }
 
+    private void HandleHttpRequest(HttpListenerContext context) {
+        UnityEngine.Debug.Log("Handling HTTP request");
+
+        HttpListenerResponse response = context.Response;
+        
+        string data = "{\"status\":\"success\"}";
+        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(data);
+
+        response.ContentType = "application/json";
+        response.ContentLength64 = buffer.Length;
+
+        Stream output = response.OutputStream;
+        output.Write(buffer, 0, buffer.Length);
+        output.Close();
+    }
+
     public void StartServer() {
-        server = new HttpServer(port);
+        server = new HttpServer(port, HandleHttpRequest);
         UnityEngine.Debug.Log($"Server started on port {port}");
     }
 
