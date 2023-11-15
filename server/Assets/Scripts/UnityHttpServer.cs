@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +8,7 @@ public class UnityHttpServer : MonoBehaviour {
     public TextMeshProUGUI serverAddress;
     
     private HttpServer server;
+    private string localIp = GetLocalIPAddress();
 
     void Awake() {
         DontDestroyOnLoad(gameObject);
@@ -19,7 +22,17 @@ public class UnityHttpServer : MonoBehaviour {
     }
 
     public string GetUrl() {
-        return $"http://localhost:{port}";
+        return $"http://{localIp}:{port}";
+    }
+
+    public static string GetLocalIPAddress() {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList) {
+            if (ip.AddressFamily == AddressFamily.InterNetwork) {
+                return ip.ToString();
+            }
+        }
+        throw new System.Exception("No network adapters with an IPv4 address in the system!");
     }
 
     void OnApplicationQuit() {
