@@ -9,10 +9,10 @@
 </head>
 <body class="text-center p-8">
     <h1 class="text-3xl mb-4">Client</h1>
-    <form action="">
-        <input type="text" class="bg-slate-100 text-center p-1 rounded-lg mb-2 w-60" placeholder="Name">
+    <form id="form" onsubmit="connect(this.server_address.value, this.name.value); return false">
+        <input id="name" type="text" class="bg-slate-100 text-center p-1 rounded-lg mb-2 w-60" placeholder="Name" value="">
         <br>
-        <input type="text" class="bg-slate-100 text-center p-1 rounded-lg mb-2 w-60" placeholder="Server IP">
+        <input id="server_address" type="text" class="bg-slate-100 text-center p-1 rounded-lg mb-2 w-60" placeholder="Server Address" value="">
         <br>
         <button type="submit" class="bg-blue-500 text-center p-1 rounded-lg text-white w-60">Connect</button>
     </form>
