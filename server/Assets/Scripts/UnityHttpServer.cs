@@ -4,8 +4,13 @@ using TMPro;
 using UnityEngine;
 
 public class UnityHttpServer : MonoBehaviour {
+    [Header("Networking")]
     public int port;
-    public TextMeshProUGUI serverAddress;
+
+    [Header("Text Fields")]
+    [SerializeField] private TextMeshProUGUI serverAddress;
+    [SerializeField] private TextMeshProUGUI connectedPlayers;
+    
     
     private HttpServer server;
     private string localIp = GetLocalIPAddress();
