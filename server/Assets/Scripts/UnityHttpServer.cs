@@ -1,12 +1,15 @@
+using TMPro;
 using UnityEngine;
 
 public class UnityHttpServer : MonoBehaviour {
     public int port;
+    public TextMeshProUGUI serverAddress;
     
     private HttpServer server;
 
     void Awake() {
         DontDestroyOnLoad(gameObject);
+        serverAddress.SetText(GetUrl());
         if (server == null) StartServer();
     }
 
