@@ -5,13 +5,11 @@ using System.Threading;
 
 public class HttpServer {
     private int port;
-    private string rootDir;
     private Thread thread;
     private HttpListener listener;
 
-    public HttpServer(string rootDir, int port) {
+    public HttpServer(int port) {
         this.port = port;
-        this.rootDir = rootDir;
         thread = new Thread(this.Listen);
         thread.Start();
     }
