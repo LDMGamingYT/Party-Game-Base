@@ -10,12 +10,19 @@ async function connect(server_address, name) {
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    .then(response => {
+        return response.json();
+    })
+    .then(json => {
+        showOutput("Success", JSON.stringify(json, null, 4).replaceAll('\n', "<br>").replaceAll('  ', "&emsp;"))
+    })
+    .catch(e => {
+        showOutput("Error", e)
+    });
     return false;
+}
+
+async function showOutput(status, response) {
+    document.getElementById("http_status").innerHTML = status;
+    document.getElementById("http_response").innerHTML = response;
 }
