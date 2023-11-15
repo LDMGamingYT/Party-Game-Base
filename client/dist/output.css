@@ -542,8 +542,16 @@ video {
   margin-bottom: 1rem;
 }
 
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
+}
+
+.grid {
+  display: grid;
 }
 
 .min-h-screen {
@@ -564,6 +572,10 @@ video {
 
 .w-60 {
   width: 15rem;
+}
+
+.flex-col {
+  flex-direction: column;
 }
 
 .rounded {
