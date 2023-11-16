@@ -37,7 +37,7 @@ public class UnityHttpServer : MonoBehaviour {
         response.AddHeader("Access-Control-Allow-Origin", "*");
         response.AddHeader("Access-Control-Allow-Headers", "*");
         
-        string data = "{\"status\":\"success\"}";
+        string data = "{\"message\":\"Connected!\"}";
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(data);
 
         response.ContentType = "application/json";

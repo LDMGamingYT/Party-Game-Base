@@ -26,7 +26,7 @@ async function connect(server_address, name) {
         return response.json();
     })
     .then(json => {
-        showOutput("Success", JSON.stringify(json, null, 4).replaceAll('\n', "<br>").replaceAll('  ', "&emsp;"))
+        showOutput(json["message"], "")
     })
     .catch(e => {
         showOutput("Error", e)
