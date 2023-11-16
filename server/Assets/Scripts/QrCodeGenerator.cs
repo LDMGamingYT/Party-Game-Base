@@ -13,7 +13,7 @@ public class QrCodeGenerator: MonoBehaviour {
         texture = new Texture2D(size, size);
     }
 
-    private void Encode(string text) {
+    public void Encode(string text) {
         Color32[] pixels = new BarcodeWriter {
             Format = BarcodeFormat.QR_CODE,
             Options = new QrCodeEncodingOptions {
