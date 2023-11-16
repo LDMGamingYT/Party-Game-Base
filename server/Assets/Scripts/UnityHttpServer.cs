@@ -23,6 +23,8 @@ public class UnityHttpServer : MonoBehaviour {
         if (server == null) StartServer();
     }
 
+    // TODO: Make sure this actually checks for connection requests etc.
+    //       In current state, any request will count as a connection and increment the counter. (unintended)
     private void HandleHttpRequest(HttpListenerContext context) {
         UnityEngine.Debug.Log("Handling HTTP request");
 
