@@ -5,7 +5,7 @@ using ZXing;
 using ZXing.QrCode;
 
 public class QrCodeGenerator: MonoBehaviour {
-    [SerializeField] private RawImage barcodeImage;
+    [SerializeField] private RawImage qrCodeImage;
     [SerializeField] private int size;
     private Texture2D texture;
 
@@ -23,6 +23,6 @@ public class QrCodeGenerator: MonoBehaviour {
         }.Write(text);
         texture.SetPixels32(pixels);
         texture.Apply();
-        barcodeImage.texture = texture; 
+        qrCodeImage.texture = texture; 
     }
 }
