@@ -25,6 +25,9 @@ public class UnityHttpServer : MonoBehaviour {
     private void HandleHttpRequest(HttpListenerContext context) {
         UnityEngine.Debug.Log("Handling HTTP request");
 
+        // FIXME: This doesn't work, as it's not called on Unity's main thread, but the HTTP server's thread
+        connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
+
         HttpListenerResponse response = context.Response;
         
         string data = "{\"status\":\"success\"}";
