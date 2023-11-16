@@ -1031,6 +1031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 8080
   serverAddress: {fileID: 1416267831}
+  connectedPlayers: {fileID: 1141559203}
 --- !u!4 &1747549717
 Transform:
   m_ObjectHideFlags: 0
