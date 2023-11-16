@@ -1,6 +1,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -25,8 +26,7 @@ public class UnityHttpServer : MonoBehaviour {
     private void HandleHttpRequest(HttpListenerContext context) {
         UnityEngine.Debug.Log("Handling HTTP request");
 
-        // FIXME: This doesn't work, as it's not called on Unity's main thread, but the HTTP server's thread
-        connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
+        UnityMainThreadDispatcher.Instance().Enqueue(HandleHttpRequestMainThread());
 
         HttpListenerResponse response = context.Response;
         
@@ -39,6 +39,11 @@ public class UnityHttpServer : MonoBehaviour {
         Stream output = response.OutputStream;
         output.Write(buffer, 0, buffer.Length);
         output.Close();
+    }
+
+    private IEnumerator HandleHttpRequestMainThread() {
+        connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
+        yield return null;
     }
 
     public void StartServer() {
