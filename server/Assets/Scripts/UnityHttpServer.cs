@@ -5,14 +5,16 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class UnityHttpServer : MonoBehaviour {
     [Header("Networking")]
     public int port;
 
-    [Header("Text Fields")]
+    [Header("Information Display")]
     [SerializeField] private TextMeshProUGUI serverAddress;
     [SerializeField] private TextMeshProUGUI connectedPlayers;
+    [SerializeField] private QrCodeGenerator qrCodeGenerator;
     
     
     private HttpServer server;
@@ -21,6 +23,7 @@ public class UnityHttpServer : MonoBehaviour {
     void Awake() {
         DontDestroyOnLoad(gameObject);
         serverAddress.SetText(GetUrl());
+        qrCodeGenerator.Encode(GetUrl());
         if (server == null) StartServer();
     }
 
