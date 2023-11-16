@@ -18,6 +18,7 @@ async function connect(server_address, name) {
     })
     .catch(e => {
         showOutput("Error", e)
+        console.error(e);
     });
     return false;
 }
