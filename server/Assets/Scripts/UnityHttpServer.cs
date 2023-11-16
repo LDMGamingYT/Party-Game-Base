@@ -25,10 +25,11 @@ public class UnityHttpServer : MonoBehaviour {
     }
 
     private void HandleHttpRequest(HttpListenerContext context) {
-        Debug.Log("Handling HTTP request");
-
         HttpListenerRequest request = context.Request;
         string connectionType = request.Headers["X-Connection-Type"];
+
+        string _ct = connectionType != null ? $" (Type: {connectionType})": "";
+        Debug.Log($"Handling HTTP {request.HttpMethod} request{_ct}");
 
         if (connectionType != null && connectionType.Equals("connect"))
             UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
