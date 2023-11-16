@@ -5,21 +5,24 @@ using ZXing;
 using ZXing.QrCode;
 
 public class QrCodeGenerator: MonoBehaviour {
-    [SerializeField] private RawImage rawImage;
+    [SerializeField] private RawImage barcodeImage;
     [SerializeField] private int size;
-    private Texture2D barcodeTexture;
+    private Texture2D texture;
 
     void Start() {
-        barcodeTexture = new Texture2D(size, size);
+        texture = new Texture2D(size, size);
     }
 
-    private Color32[] Encode(string text) {
-        return new BarcodeWriter {
+    private void Encode(string text) {
+        Color32[] pixels = new BarcodeWriter {
             Format = BarcodeFormat.QR_CODE,
             Options = new QrCodeEncodingOptions {
                 Height = size,
                 Width = size
             }
         }.Write(text);
+        texture.SetPixels32(pixels);
+        texture.Apply();
+        barcodeImage.texture = texture; 
     }
 }
