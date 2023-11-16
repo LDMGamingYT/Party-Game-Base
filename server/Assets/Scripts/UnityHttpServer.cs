@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using System;
 
 public class UnityHttpServer : MonoBehaviour {
     [Header("Networking")]
@@ -23,16 +24,18 @@ public class UnityHttpServer : MonoBehaviour {
         if (server == null) StartServer();
     }
 
-    // TODO: Make sure this actually checks for connection requests etc.
-    //       In current state, any request will count as a connection and increment the counter. (unintended)
     private void HandleHttpRequest(HttpListenerContext context) {
-        UnityEngine.Debug.Log("Handling HTTP request");
+        Debug.Log("Handling HTTP request");
 
-        UnityMainThreadDispatcher.Instance().Enqueue(HandleHttpRequestMainThread());
+        HttpListenerRequest request = context.Request;
+        string connectionType = request.Headers["X-Connection-Type"];
+
+        if (connectionType != null && connectionType.Equals("connect"))
+            UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
 
         HttpListenerResponse response = context.Response;
         response.AddHeader("Access-Control-Allow-Origin", "*");
-        response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.AddHeader("Access-Control-Allow-Headers", "*");
         
         string data = "{\"status\":\"success\"}";
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(data);
@@ -45,14 +48,14 @@ public class UnityHttpServer : MonoBehaviour {
         output.Close();
     }
 
-    private IEnumerator HandleHttpRequestMainThread() {
+    private IEnumerator ConnectPlayer() {
         connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
         yield return null;
     }
 
     public void StartServer() {
         server = new HttpServer(port, HandleHttpRequest);
-        UnityEngine.Debug.Log($"Server started on port {port}");
+        Debug.Log($"Server started on port {port}");
     }
 
     public string GetUrl() {
