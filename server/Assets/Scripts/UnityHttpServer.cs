@@ -30,6 +30,7 @@ public class UnityHttpServer : MonoBehaviour {
 
         HttpListenerResponse response = context.Response;
         response.AddHeader("Access-Control-Allow-Origin", "*");
+        response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
         
         string data = "{\"status\":\"success\"}";
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(data);
