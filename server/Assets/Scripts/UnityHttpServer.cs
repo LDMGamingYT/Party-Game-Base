@@ -4,10 +4,6 @@ using System.Net.Sockets;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using System;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Text;
 
 public class UnityHttpServer : MonoBehaviour {
     [Header("Networking")]
