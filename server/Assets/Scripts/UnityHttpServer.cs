@@ -32,36 +32,28 @@ public class UnityHttpServer : MonoBehaviour {
         string _ct = connectionType != null ? $" (Type: {connectionType})": "";
         Debug.Log($"Handling HTTP {request.HttpMethod} request{_ct}");
 
-        HttpListenerResponse response = context.Response;
-        response.AddHeader("Access-Control-Allow-Origin", "*");
-        response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        response.AddHeader("Access-Control-Allow-Headers", "Content-Type, X-Connection-Type");
+        HttpResponse_Generic response = new HttpResponse_Generic(context.Response);
 
         string requestBody = new StreamReader(request.InputStream, request.ContentEncoding).ReadToEnd();
-
-        HttpResponse_Generic responseJson;
 
         switch (connectionType) {
             case "connect":
                 string playerName = new HttpRequest_ConnectPlayer(requestBody).name;
                 if (!playerManager.IsPlayerConnected(playerName)) {
                     UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer(playerName, request.RemoteEndPoint.Address.ToString()));
-                    responseJson = new HttpResponse_Generic("Connected!", true);
-                } else responseJson = new HttpResponse_Generic($"There's already a player named '{playerName}'.", false);
+                    response.message = "Connected!";
+                } else {
+                    response.message = $"There's already a player named '{playerName}'.";
+                    response.ok = false;
+                }
+
                 break;
             default:
-                responseJson = new HttpResponse_Generic("Invalid or bad request", false);
+                response.message = "Invalid or bad request";
+                response.ok = false;
                 break;
         }
         
-        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseJson.ToJson());
-
-        response.ContentType = "application/json";
-        response.ContentLength64 = buffer.Length;
-
-        Stream output = response.OutputStream;
-        output.Write(buffer, 0, buffer.Length);
-        output.Close();
     }
 
     private IEnumerator ConnectPlayer(string name, string ip) {
