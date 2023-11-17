@@ -55,7 +55,6 @@ public class UnityHttpServer : MonoBehaviour {
                 break;
         }
         
-        Debug.Log(responseJson.ToJson());
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseJson.ToJson());
 
         response.ContentType = "application/json";
