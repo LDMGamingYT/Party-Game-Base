@@ -7,6 +7,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Text;
 
 public class UnityHttpServer : MonoBehaviour {
     [Header("Networking")]
@@ -14,8 +15,8 @@ public class UnityHttpServer : MonoBehaviour {
 
     [Header("Information Display")]
     [SerializeField] private TextMeshProUGUI serverAddress;
-    [SerializeField] private TextMeshProUGUI connectedPlayers;
     [SerializeField] private QrCodeGenerator qrCodeGenerator;
+    [SerializeField] private PlayerManager playerManager;
     
     
     private HttpServer server;
@@ -40,15 +41,17 @@ public class UnityHttpServer : MonoBehaviour {
         response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         response.AddHeader("Access-Control-Allow-Headers", "Content-Type, X-Connection-Type");
 
-        HttpResponseData responseJson;
+        string requestBody = new StreamReader(request.InputStream, request.ContentEncoding).ReadToEnd();
+
+        HttpResponse_Generic responseJson;
 
         switch (connectionType) {
             case "connect":
-                UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
-                responseJson = new HttpResponseData("Connected!");
+                UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer(new HttpRequest_ConnectPlayer(requestBody).name));
+                responseJson = new HttpResponse_Generic("Connected!");
                 break;
             default:
-                responseJson = new HttpResponseData("Invalid or bad request");
+                responseJson = new HttpResponse_Generic("Invalid or bad request");
                 break;
         }
         
@@ -63,8 +66,8 @@ public class UnityHttpServer : MonoBehaviour {
         output.Close();
     }
 
-    private IEnumerator ConnectPlayer() {
-        connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
+    private IEnumerator ConnectPlayer(string name) {
+        playerManager.AddPlayer(name);
         yield return null;
     }
 

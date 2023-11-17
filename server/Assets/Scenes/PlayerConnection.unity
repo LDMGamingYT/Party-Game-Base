@@ -609,6 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b74c9508fda32a48b1386c988c4a102, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectedPlayers: {fileID: 1141559203}
 --- !u!114 &846825015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,8 +1325,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 8080
   serverAddress: {fileID: 1416267831}
-  connectedPlayers: {fileID: 1141559203}
   qrCodeGenerator: {fileID: 267547830}
+  playerManager: {fileID: 846825014}
 --- !u!4 &1747549717
 Transform:
   m_ObjectHideFlags: 0
