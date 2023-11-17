@@ -21,4 +21,8 @@ public class PlayerManager : MonoBehaviour {
 		connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
 		return true;
 	}
+
+	public string GetPlayerIp(int player) {
+		return null; // stub method
+	}
 }

@@ -81,6 +81,10 @@ public class UnityHttpServer : MonoBehaviour {
         throw new System.Exception("No network adapters with an IPv4 address in the system!");
     }
 
+    public void SendRequestToPlayer(int player) {
+        server.SendRequest(playerManager.GetPlayerIp(player));
+    }
+
     void OnApplicationQuit() {
         server.Stop();
     }
