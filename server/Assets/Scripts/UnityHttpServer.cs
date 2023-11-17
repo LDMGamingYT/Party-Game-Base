@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UnityHttpServer : MonoBehaviour {
     [Header("Networking")]
@@ -34,15 +35,29 @@ public class UnityHttpServer : MonoBehaviour {
         string _ct = connectionType != null ? $" (Type: {connectionType})": "";
         Debug.Log($"Handling HTTP {request.HttpMethod} request{_ct}");
 
-        if (connectionType != null && connectionType.Equals("connect"))
-            UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
+        Dictionary<string, object> responseJson = new Dictionary<string, object> {
+                    {"message", "Something went wrong."},
+                };
+
+        switch (connectionType) {
+            case "connect":
+                UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
+                responseJson = new Dictionary<string, object> {
+                    {"message", "Connected!"},
+                };
+                break;
+            default:
+                context.Response.StatusCode = 400;
+                context.Response.Close();
+                break;
+        }
 
         HttpListenerResponse response = context.Response;
         response.AddHeader("Access-Control-Allow-Origin", "*");
         response.AddHeader("Access-Control-Allow-Headers", "*");
         
-        string data = "{\"message\":\"Connected!\"}";
-        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(data);
+        
+        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(responseJson));
 
         response.ContentType = "application/json";
         response.ContentLength64 = buffer.Length;
