@@ -49,7 +49,7 @@ public class UnityHttpServer : MonoBehaviour {
             case "connect":
                 string playerName = new HttpRequest_ConnectPlayer(requestBody).name;
                 if (!playerManager.IsPlayerConnected(playerName)) {
-                    UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer(playerName));
+                    UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer(playerName, request.RemoteEndPoint.Address.ToString()));
                     responseJson = new HttpResponse_Generic("Connected!");
                 } else responseJson = new HttpResponse_Generic($"There's already a player named '{playerName}'.");
                 break;
@@ -68,8 +68,8 @@ public class UnityHttpServer : MonoBehaviour {
         output.Close();
     }
 
-    private IEnumerator ConnectPlayer(string name) {
-        playerManager.AddPlayer(name);
+    private IEnumerator ConnectPlayer(string name, string ip) {
+        playerManager.AddPlayer(name, ip);
         yield return null;
     }
 
