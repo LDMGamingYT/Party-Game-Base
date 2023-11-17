@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
     }
 
     public static Player FromJson(string rawJson) {
-		Player jsonObject = (Player)JsonUtility.FromJson(rawJson, typeof(Player));
+		Player jsonObject = JsonUtility.FromJson<Player>(rawJson);
 		return new Player(jsonObject.name, jsonObject.ip);
 	}
 
