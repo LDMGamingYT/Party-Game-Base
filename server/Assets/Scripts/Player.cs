@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,9 +15,13 @@ public class Player : MonoBehaviour {
     }
 
     public static Player FromJson(string rawJson) {
-		Player jsonObject = JsonUtility.FromJson<Player>(rawJson);
-		return new Player(jsonObject.name, jsonObject.ip);
-	}
+        Dictionary<string, object> jsonDict = JsonUtility.FromJson<Dictionary<string, object>>(rawJson);
+
+        string name = jsonDict.ContainsKey("name") ? jsonDict["name"].ToString() : null;
+        string ip = jsonDict.ContainsKey("ip") ? jsonDict["ip"].ToString() : null;
+
+        return new Player(name, ip);
+    }
 
     public IEnumerator SendRequest() {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(ip)) {
