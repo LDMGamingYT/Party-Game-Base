@@ -17,7 +17,7 @@ public class HttpResponse {
 		response.ContentType = "application/json";
 	}
 
-	public void WriteAndSend() {
+	public void Send() {
 		byte[] buffer = System.Text.Encoding.UTF8.GetBytes(ToJson());
 		response.ContentLength64 = buffer.Length;
 

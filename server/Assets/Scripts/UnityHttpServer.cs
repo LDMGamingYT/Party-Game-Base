@@ -54,6 +54,7 @@ public class UnityHttpServer : MonoBehaviour {
                 break;
         }
         
+        response.Send();
     }
 
     private IEnumerator ConnectPlayer(string name, string ip) {
