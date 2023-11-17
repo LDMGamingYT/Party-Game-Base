@@ -35,9 +35,11 @@ public class UnityHttpServer : MonoBehaviour {
         string _ct = connectionType != null ? $" (Type: {connectionType})": "";
         Debug.Log($"Handling HTTP {request.HttpMethod} request{_ct}");
 
-        Dictionary<string, object> responseJson = new Dictionary<string, object> {
-                    {"message", "Something went wrong."},
-                };
+        HttpListenerResponse response = context.Response;
+        response.AddHeader("Access-Control-Allow-Origin", "*");
+        response.AddHeader("Access-Control-Allow-Headers", "*");
+
+        Dictionary<string, object> responseJson;
 
         switch (connectionType) {
             case "connect":
@@ -47,14 +49,10 @@ public class UnityHttpServer : MonoBehaviour {
                 };
                 break;
             default:
-                context.Response.StatusCode = 400;
-                context.Response.Close();
-                break;
+                response.StatusCode = 400;
+                response.Close();
+                return;
         }
-
-        HttpListenerResponse response = context.Response;
-        response.AddHeader("Access-Control-Allow-Origin", "*");
-        response.AddHeader("Access-Control-Allow-Headers", "*");
         
         
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(responseJson));
