@@ -1,12 +1,29 @@
 using System;
+using System.IO;
+using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
 public class HttpResponse {
-	public bool ok;
+	[NonSerialized] private HttpListenerResponse response;
+	public bool ok = true;
 
-	public HttpResponse(bool ok) {
-		this.ok = ok;
+	public HttpResponse(HttpListenerResponse response) {
+		this.response = response;
+		response.AddHeader("Access-Control-Allow-Origin", "*");
+        response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        response.AddHeader("Access-Control-Allow-Headers", "Content-Type, X-Connection-Type");
+		response.ContentType = "application/json";
+	}
+
+	public void Send() {
+		byte[] buffer = System.Text.Encoding.UTF8.GetBytes(ToJson());
+		response.ContentLength64 = buffer.Length;
+
+		Stream output = response.OutputStream;
+        output.Write(buffer, 0, buffer.Length);
+        output.Close();
 	}
 
 	public string ToJson() {
@@ -17,9 +34,7 @@ public class HttpResponse {
 public class HttpResponse_Generic: HttpResponse {
 	public string message;
 
-	public HttpResponse_Generic(string message, bool ok): base(ok) {
-		this.message = message;
-	}
+	public HttpResponse_Generic(HttpListenerResponse response): base(response) {}
 }
 
 [Serializable]
