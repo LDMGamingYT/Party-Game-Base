@@ -37,7 +37,8 @@ public class UnityHttpServer : MonoBehaviour {
 
         HttpListenerResponse response = context.Response;
         response.AddHeader("Access-Control-Allow-Origin", "*");
-        response.AddHeader("Access-Control-Allow-Headers", "*");
+        response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        response.AddHeader("Access-Control-Allow-Headers", "Content-Type, X-Connection-Type");
 
         Dictionary<string, object> responseJson;
 
