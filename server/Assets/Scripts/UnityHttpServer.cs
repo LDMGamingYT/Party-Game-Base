@@ -82,7 +82,7 @@ public class UnityHttpServer : MonoBehaviour {
     }
 
     public void SendRequestToPlayer(int player) {
-        playerManager.GetPlayer(player).SendRequest();
+        StartCoroutine(playerManager.GetPlayer(player).SendRequest());
     }
 
     void OnApplicationQuit() {
