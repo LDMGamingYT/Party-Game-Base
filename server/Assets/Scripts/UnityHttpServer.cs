@@ -46,11 +46,11 @@ public class UnityHttpServer : MonoBehaviour {
                 string playerName = new HttpRequest_ConnectPlayer(requestBody).name;
                 if (!playerManager.IsPlayerConnected(playerName)) {
                     UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer(playerName, request.RemoteEndPoint.Address.ToString()));
-                    responseJson = new HttpResponse_Generic("Connected!");
-                } else responseJson = new HttpResponse_Generic($"There's already a player named '{playerName}'.");
+                    responseJson = new HttpResponse_Generic("Connected!", true);
+                } else responseJson = new HttpResponse_Generic($"There's already a player named '{playerName}'.", false);
                 break;
             default:
-                responseJson = new HttpResponse_Generic("Invalid or bad request");
+                responseJson = new HttpResponse_Generic("Invalid or bad request", false);
                 break;
         }
         

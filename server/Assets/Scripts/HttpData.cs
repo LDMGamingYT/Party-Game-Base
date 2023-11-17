@@ -3,6 +3,12 @@ using UnityEngine;
 
 [Serializable]
 public class HttpResponse {
+	public bool ok;
+
+	public HttpResponse(bool ok) {
+		this.ok = ok;
+	}
+
 	public string ToJson() {
 		return JsonUtility.ToJson(this);
 	}
@@ -11,7 +17,7 @@ public class HttpResponse {
 public class HttpResponse_Generic: HttpResponse {
 	public string message;
 
-	public HttpResponse_Generic(string message) {
+	public HttpResponse_Generic(string message, bool ok): base(ok) {
 		this.message = message;
 	}
 }
