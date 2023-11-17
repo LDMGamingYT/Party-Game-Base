@@ -40,24 +40,20 @@ public class UnityHttpServer : MonoBehaviour {
         response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         response.AddHeader("Access-Control-Allow-Headers", "Content-Type, X-Connection-Type");
 
-        Dictionary<string, object> responseJson;
+        HttpResponses.GenericHttpResponse responseJson;
 
         switch (connectionType) {
             case "connect":
                 UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
-                responseJson = new Dictionary<string, object> {
-                    {"message", "Connected!"},
-                };
+                responseJson = new HttpResponses.GenericHttpResponse("Connected!");
                 break;
             default:
-                responseJson = new Dictionary<string, object> {
-                    {"message", "Bad request"},
-                };
+                responseJson = new HttpResponses.GenericHttpResponse("Bad request");
                 break;
         }
         
-        
-        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(responseJson));
+        Debug.Log(responseJson.ToJson());
+        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseJson.ToJson());
 
         response.ContentType = "application/json";
         response.ContentLength64 = buffer.Length;
