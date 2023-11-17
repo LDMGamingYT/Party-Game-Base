@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour {
 		return true;
 	}
 
-	public string GetPlayerIp(int player) {
-		return players[player].ip;
+	public Player GetPlayer(int player) {
+		return players[player];
 	}
 }

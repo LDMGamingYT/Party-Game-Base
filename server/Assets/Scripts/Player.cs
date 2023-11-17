@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [Serializable]
 public class Player : MonoBehaviour {
@@ -15,4 +17,17 @@ public class Player : MonoBehaviour {
 		Player jsonObject = (Player)JsonUtility.FromJson(rawJson, typeof(Player));
 		return new Player(jsonObject.name, jsonObject.ip);
 	}
+
+    public IEnumerator SendRequest() {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(ip)) {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError) {
+                Debug.LogError("Request error: " + webRequest.error);
+            } else {
+                Debug.Log("Request successful");
+                Debug.Log("Response: " + webRequest.downloadHandler.text);
+            }
+        }
+    }
 }
