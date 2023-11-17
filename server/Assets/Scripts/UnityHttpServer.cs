@@ -45,10 +45,10 @@ public class UnityHttpServer : MonoBehaviour {
         switch (connectionType) {
             case "connect":
                 UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer());
-                responseJson = new GenericHttpResponseData("Connected!");
+                responseJson = new HttpResponseData("Connected!");
                 break;
             default:
-                responseJson = new GenericHttpResponseData("Bad request");
+                responseJson = new HttpResponseData("Bad request");
                 break;
         }
         
