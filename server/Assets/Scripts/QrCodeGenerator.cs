@@ -6,7 +6,7 @@ using ZXing.QrCode;
 
 public class QrCodeGenerator: MonoBehaviour {
     private RawImage image;
-    [SerializeField] private int size;
+    private readonly static int size = 256;
     private Texture2D texture;
 
     void Awake() {
