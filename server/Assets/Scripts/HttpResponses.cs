@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class HttpResponseData {
-	public string message { get; }
+	public string message;
 
 	public HttpResponseData(string message) {
 		this.message = message;
