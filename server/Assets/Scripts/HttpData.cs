@@ -6,7 +6,7 @@ using UnityEngine;
 
 [Serializable]
 public class HttpResponse {
-	[DoNotSerialize] private HttpListenerResponse response;
+	[NonSerialized] private HttpListenerResponse response;
 	public bool ok = true;
 
 	public HttpResponse(HttpListenerResponse response) {
