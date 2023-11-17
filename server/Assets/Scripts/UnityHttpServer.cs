@@ -48,7 +48,7 @@ public class UnityHttpServer : MonoBehaviour {
                 responseJson = new HttpResponseData("Connected!");
                 break;
             default:
-                responseJson = new HttpResponseData("Bad request");
+                responseJson = new HttpResponseData("Invalid or bad request");
                 break;
         }
         
