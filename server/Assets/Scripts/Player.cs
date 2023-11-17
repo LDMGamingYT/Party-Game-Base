@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [Serializable]
-public class Player : MonoBehaviour {
-    public new string name;
+public class Player {
+    public string name;
     public string ip;
 
     public Player(string name, string ip) {
