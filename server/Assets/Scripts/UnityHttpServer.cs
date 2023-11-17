@@ -50,9 +50,10 @@ public class UnityHttpServer : MonoBehaviour {
                 };
                 break;
             default:
-                response.StatusCode = 400;
-                response.Close();
-                return;
+                responseJson = new Dictionary<string, object> {
+                    {"message", "Bad request"},
+                };
+                break;
         }
         
         
