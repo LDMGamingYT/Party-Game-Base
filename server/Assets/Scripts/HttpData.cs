@@ -36,13 +36,3 @@ public class HttpResponse_Generic: HttpResponse {
 
 	public HttpResponse_Generic(HttpListenerResponse response): base(response) {}
 }
-
-[Serializable]
-public class HttpRequest_ConnectPlayer {
-	public string name;
-
-	public HttpRequest_ConnectPlayer(string json) {
-		HttpRequest_ConnectPlayer content = (HttpRequest_ConnectPlayer)JsonUtility.FromJson(json, typeof(HttpRequest_ConnectPlayer));
-		name = content.name;
-	}
-}

@@ -10,4 +10,9 @@ public class Player : MonoBehaviour {
         this.name = name;
         this.ip = ip;
     }
+
+    public static Player FromJson(string rawJson) {
+		Player jsonObject = (Player)JsonUtility.FromJson(rawJson, typeof(Player));
+		return new Player(jsonObject.name, jsonObject.ip);
+	}
 }

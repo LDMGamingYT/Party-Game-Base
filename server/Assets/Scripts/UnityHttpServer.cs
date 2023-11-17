@@ -38,7 +38,7 @@ public class UnityHttpServer : MonoBehaviour {
 
         switch (connectionType) {
             case "connect":
-                string playerName = new HttpRequest_ConnectPlayer(requestBody).name;
+                string playerName = Player.FromJson(requestBody).name;
                 if (!playerManager.IsPlayerConnected(playerName)) {
                     UnityMainThreadDispatcher.Instance().Enqueue(ConnectPlayer(playerName, request.RemoteEndPoint.Address.ToString()));
                     response.message = "Connected!";
