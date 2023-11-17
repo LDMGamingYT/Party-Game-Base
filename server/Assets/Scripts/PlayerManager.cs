@@ -10,9 +10,12 @@ public class PlayerManager : MonoBehaviour {
 	void Awake() {
 		playerList = GetComponent<TextMeshProUGUI>();
 	}
+
+	public bool IsPlayerConnected(string name) {
+		return players.Contains(name);
+	}
 	
 	public bool AddPlayer(string name) {
-		if (players.Contains(name)) return false;
 		players.Add(name);
 		playerList.SetText(playerList.text + "\n" + name);
 		connectedPlayers.SetText((int.Parse(connectedPlayers.text) + 1).ToString());
